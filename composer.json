@@ -1,0 +1,50 @@
+{
+    "name": "brikdigital/craft-hubspot",
+    "description": "Hubspot",
+    "type": "craft-plugin",
+    "license": "proprietary",
+    "support": {
+        "email": "plugins@brik.digital",
+        "issues": "https://github.com/brikdigital/craft-hubspot/issues?state=open",
+        "source": "https://github.com/brikdigital/craft-hubspot",
+        "docs": "https://github.com/brikdigital/craft-hubspot",
+        "rss": "https://github.com/brikdigital/craft-hubspot/releases.atom"
+    },
+    "require": {
+        "php": ">=8.0.2",
+        "craftcms/cms": "^4.5.0",
+        "hubspot/api-client": "^10.0.0"
+    },
+    "require-dev": {
+        "craftcms/ecs": "dev-main",
+        "craftcms/phpstan": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "brikdigital\\hubspot\\": "src/"
+        }
+    },
+    "extra": {
+        "handle": "hubspot",
+        "name": "Hubspot",
+        "developer": "Brik",
+        "documentationUrl": "https://github.com/brikdigital/craft-hubspot",
+        "class": "brikdigital\\hubspot\\Hubspot"
+    },
+    "scripts": {
+        "check-cs": "ecs check --ansi",
+        "fix-cs": "ecs check --ansi --fix",
+        "phpstan": "phpstan --memory-limit=1G"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.0.2"
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
+    }
+}
+

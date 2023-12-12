@@ -1,0 +1,22 @@
+{# @var plugin \brikdigital\hubspot\Hubspot #}
+{# @var settings \brikdigital\hubspot\models\Settings #}
+
+{% import '_includes/forms.twig' as forms %}
+
+<h2>Hubspot</h2>
+<p>Hello all, this is the Hubspot plugin</p>
+<hr />
+
+{{ forms.autosuggestField({
+  label: 'Access Token',
+  name: 'accessToken',
+  value: settings.accessToken,
+  suggestEnvVars: true
+}) }}
+
+{{ forms.autosuggestField({
+  label: 'Client secret',
+  name: 'clientSecret',
+  value: settings.clientSecret,
+  suggestEnvVars: true
+}) }}
