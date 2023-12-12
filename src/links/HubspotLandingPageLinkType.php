@@ -21,7 +21,7 @@ class HubspotLandingPageLinkType extends Link
 
     public static function displayName(): string
     {
-        return Craft::t('craft-hubspot', 'Hubspot Landing Page');
+        return Craft::t('brik-hubspot', 'Hubspot Landing Page');
     }
 
     public function getSettingsConfig(): array
