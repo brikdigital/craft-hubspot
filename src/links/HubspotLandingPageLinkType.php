@@ -74,7 +74,7 @@ class HubspotLandingPageLinkType extends Link
     {
         $options = [
             [
-                'label' => Craft::t('hubspot', 'Choose a Landing Page'),
+                'label' => Craft::t('brik-hubspot', 'Choose a Landing Page'),
                 'value' => '',
                 'disabled' => true,
             ]

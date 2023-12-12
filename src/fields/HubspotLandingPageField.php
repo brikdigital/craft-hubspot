@@ -24,7 +24,7 @@ class HubspotLandingPageField extends Dropdown
         
         $this->options = [
             [
-                'label' => Craft::t('hubspot', 'Choose a Landing Page'),
+                'label' => Craft::t('brik-hubspot', 'Choose a Landing Page'),
                 'value' => '',
                 'disabled' => true,
             ]
@@ -42,7 +42,7 @@ class HubspotLandingPageField extends Dropdown
 
     public static function displayName(): string
     {
-        return Craft::t('hubspot', 'Hubspot Landing Page');
+        return Craft::t('brik-hubspot', 'Hubspot Landing Page');
     }
 
     public function getConfig(): array

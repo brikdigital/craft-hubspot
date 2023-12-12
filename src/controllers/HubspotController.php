@@ -18,7 +18,7 @@ class HubspotController extends Controller
         Hubspot::$plugin->getInstance()->controllerNamespace = 'brikdigital\hubspot\console\controllers';
         Hubspot::$plugin->getInstance()->runAction('hubspot/sync');
 
-        return $this->redirect('admin/settings/plugins/hubspot');
+        return $this->redirect('admin/settings/plugins/brik-hubspot');
     }
 
 }

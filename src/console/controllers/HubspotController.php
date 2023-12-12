@@ -28,7 +28,7 @@ class HubspotController extends Controller
     }
 
     /**
-     * hubspot/hubspot command
+     * Hubspot Sync command
      */
     public function actionSync(): int
     {

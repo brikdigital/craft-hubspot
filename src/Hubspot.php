@@ -63,7 +63,7 @@ class Hubspot extends Plugin
 
     protected function settingsHtml(): ?string
     {
-        return Craft::$app->view->renderTemplate('hubspot/_settings.twig', [
+        return Craft::$app->view->renderTemplate('brik-hubspot/_settings.twig', [
             'plugin' => $this,
             'settings' => $this->getSettings(),
         ]);

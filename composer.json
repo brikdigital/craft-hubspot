@@ -25,7 +25,7 @@
         }
     },
     "extra": {
-        "handle": "hubspot",
+        "handle": "brik-hubspot",
         "name": "Hubspot",
         "developer": "Brik",
         "documentationUrl": "https://github.com/brikdigital/craft-hubspot",
