@@ -15,6 +15,7 @@ class Install extends Migration
      */
     public function safeUp(): bool
     {
+        $this->archiveTableIfExists('{{%hubspot_landing_pages}}');
         $this->createTable('{{%hubspot_landing_pages}}', [
             'id' => $this->primaryKey(),
             'hubspot_key' => $this->string(),
@@ -37,7 +38,7 @@ class Install extends Migration
      */
     public function safeDown(): bool
     {
-        echo "Install cannot be reverted.\n";
+        $this->dropTableIfExists('{{%hubspot_landing_pages}}');
         return true;
     }
 }

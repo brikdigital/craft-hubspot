@@ -6,10 +6,12 @@ use Craft;
 use brikdigital\hubspot\fields\HubspotLandingPageField;
 use brikdigital\hubspot\links\HubspotLandingPageLinkType;
 use brikdigital\hubspot\models\Settings;
+use brikdigital\hubspot\variables\HubspotVariable;
 use craft\base\Model;
 use craft\base\Plugin;
 use craft\events\RegisterComponentTypesEvent;
 use craft\services\Fields;
+use craft\web\twig\variables\CraftVariable;
 use verbb\hyper\services\Links;
 use yii\base\Event;
 
@@ -24,6 +26,8 @@ use yii\base\Event;
  */
 class Hubspot extends Plugin
 {
+    public static $plugin;
+
     public string $schemaVersion = '1.0.0';
     public bool $hasCpSettings = true;
 
@@ -40,10 +44,15 @@ class Hubspot extends Plugin
     {
         parent::init();
 
+        self::$plugin = $this;
+
         // Defer most setup tasks until Craft is fully initialized
         Craft::$app->onInit(function () {
             $this->attachEventHandlers();
-            // ...
+            
+            Event::on(CraftVariable::class, CraftVariable::EVENT_INIT, function (Event $event) {
+                $event->sender->set('hubspot', HubspotVariable::class);
+            });
         });
     }
 
@@ -68,7 +77,7 @@ class Hubspot extends Plugin
             $event->types[] = HubspotLandingPageField::class;
         });
         
-        Event::on(Links::class, Links::EVENT_REGISTER_LINK_TYPES, function(RegisterComponentTypesEvent $event) {
+        Event::on(Links::class, Links::EVENT_REGISTER_LINK_TYPES, function (RegisterComponentTypesEvent $event) {
             $event->types[] = HubspotLandingPageLinkType::class;
         });
     }

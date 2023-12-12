@@ -3,9 +3,7 @@
 
 {% import '_includes/forms.twig' as forms %}
 
-<h2>Hubspot</h2>
-<p>Hello all, this is the Hubspot plugin</p>
-<hr />
+<h1>Hubspot</h1>
 
 {{ forms.autosuggestField({
   label: 'Access Token',
@@ -20,3 +18,23 @@
   value: settings.clientSecret,
   suggestEnvVars: true
 }) }}
+
+<hr />
+
+<h2>Synchronization</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Results</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Landing Pages</td>
+      <td>{{ craft.hubspot.getLandingPages() }}</td>
+      <td><a href="/actions/hubspot/hubspot/run">Run</a></td>
+    </tr>
+  </tbody>
+</table>
