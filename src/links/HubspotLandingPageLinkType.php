@@ -58,8 +58,6 @@ class HubspotLandingPageLinkType extends Link
     public function getInputHtml(LinkField $layoutField, HyperField $field): ?string
     {
         $variables = $this->getInputHtmlVariables($layoutField, $field);
-        // echo "<pre>";
-        // var_dump($this->linkValue); exit;
         return Cp::selectHtml([
             'id' => $this->getInputId(),
             'describedBy' => '',
@@ -80,7 +78,7 @@ class HubspotLandingPageLinkType extends Link
             ]
         ];
 
-        $landingPages = LandingPageRecord::find()->all();
+        $landingPages = LandingPageRecord::find()->orderBy('name ASC')->all();
         foreach ($landingPages as $page) {
             $options[] = [
                 'label' => $page->name,
