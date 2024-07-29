@@ -42,7 +42,7 @@ class HubspotController extends Controller
         $accessToken = \craft\helpers\App::parseEnv(Plugin::getInstance()->getSettings()->accessToken);
         $hubspot = \HubSpot\Factory::createWithAccessToken($accessToken);
         $response = $hubspot->apiRequest([
-            'path' => '/cms/v3/pages/landing-pages?state__in=PUBLISHED_OR_SCHEDULED',
+            'path' => '/cms/v3/pages/landing-pages?state__in=PUBLISHED_OR_SCHEDULED&sort=-createdAt',
         ]);
 
         $contents = $response->getBody()->getContents();
