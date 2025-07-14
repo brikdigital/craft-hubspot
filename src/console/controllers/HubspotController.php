@@ -3,10 +3,10 @@
 namespace brikdigital\hubspot\console\controllers;
 
 use brikdigital\hubspot\Hubspot as Plugin;
-use brikdigital\hubspot\models\LandingPage;
 use brikdigital\hubspot\records\LandingPageRecord;
-use Craft;
 use craft\console\Controller;
+use craft\helpers\App;
+use HubSpot\Factory;
 use yii\console\ExitCode;
 
 /**
@@ -14,19 +14,6 @@ use yii\console\ExitCode;
  */
 class HubspotController extends Controller
 {
-    public $defaultAction = 'index';
-
-    public function options($actionID): array
-    {
-        $options = parent::options($actionID);
-        switch ($actionID) {
-            case 'index':
-                // $options[] = '...';
-                break;
-        }
-        return $options;
-    }
-
     /**
      * Hubspot Sync command
      */
@@ -37,18 +24,16 @@ class HubspotController extends Controller
         return ExitCode::OK;
     }
 
-    private function _syncLandingPages()
+    private function _syncLandingPages(): void
     {
-        $accessToken = \craft\helpers\App::parseEnv(Plugin::getInstance()->getSettings()->accessToken);
-        $hubspot = \HubSpot\Factory::createWithAccessToken($accessToken);
-        $response = $hubspot->apiRequest([
+        $accessToken = App::parseEnv(Plugin::getInstance()->getSettings()->accessToken);
+        $response = Factory::createWithAccessToken($accessToken)->apiRequest([
             'path' => '/cms/v3/pages/landing-pages?state__in=PUBLISHED_OR_SCHEDULED&sort=-createdAt',
         ]);
 
         $contents = $response->getBody()->getContents();
-        $data = json_decode($contents);
 
-        foreach ($data->results as $object) {
+        foreach (json_decode($contents, false, flags: JSON_THROW_ON_ERROR)->results as $object) {
             echo "Landing Page: " . $object->language . " - " . $object->id . "\n";
             $this->_saveLandingPageByObject($object);
             foreach ($object->translations as $language => $translation) {
@@ -64,21 +49,21 @@ class HubspotController extends Controller
         }
     }
 
-    private function _saveLandingPageByObject($object)
+    private function _saveLandingPageByObject($object): void
     {
         $landingPage = LandingPageRecord::findOne([
             'hubspot_key' => $object->id,
-            'language' => isset($object->language) ? $object->language : null
+            'language' => $object->language ?? null
         ]);
         
-        if ($landingPage == null) {
+        if ($landingPage === null) {
             $landingPage = new LandingPageRecord();
         }
 
         $landingPage->hubspot_key = (int)$object->id;
         $landingPage->name = $object->name;
         $landingPage->url = $object->url;
-        $landingPage->language = isset($object->language) ? $object->language : null;
+        $landingPage->language = $object->language ?? null;
         $landingPage->authorName = $object->authorName;
         $landingPage->state = $object->state;
         $landingPage->dateCreated = date("Y-m-d h:i:s", strtotime($object->createdAt));

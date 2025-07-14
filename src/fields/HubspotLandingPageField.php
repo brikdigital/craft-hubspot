@@ -6,13 +6,11 @@ use brikdigital\hubspot\records\LandingPageRecord;
 use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
-use craft\base\Field;
 use craft\elements\db\ElementQueryInterface;
+use craft\enums\AttributeStatus;
 use craft\fields\Dropdown;
-use craft\helpers\Html;
 use craft\helpers\Cp;
 use craft\helpers\StringHelper;
-use yii\db\Schema;
 
 /**
  * Hubspot Landing Page field type
@@ -21,7 +19,6 @@ class HubspotLandingPageField extends Dropdown
 {
     public function init(): void
     {
-        
         $this->options = [
             [
                 'label' => Craft::t('brik-hubspot', 'Choose a Landing Page'),
@@ -30,14 +27,12 @@ class HubspotLandingPageField extends Dropdown
             ]
         ];
 
-        $landingPages = LandingPageRecord::find()->all();
-        foreach ($landingPages as $page) {
+        foreach (LandingPageRecord::find()->all() as $page) {
             $this->options[] = [
                 'label' => $page->name,
                 'value' => $page->url,
             ];
         }
-
     }
 
     public static function displayName(): string
@@ -57,7 +52,7 @@ class HubspotLandingPageField extends Dropdown
         return null;
     }
 
-    protected function inputHtml(mixed $value, ElementInterface $element = null): string
+    protected function inputHtml(mixed $value, ?ElementInterface $element, bool $inline): string
     {
         return Cp::selectHtml([
             'id' => $this->getInputId(),
@@ -84,16 +79,11 @@ class HubspotLandingPageField extends Dropdown
         return null;
     }
 
-    public function modifyElementsQuery(ElementQueryInterface $query, mixed $value): void
-    {
-        parent::modifyElementsQuery($query, $value);
-    }
-
     public function getStatus(ElementInterface $element): ?array
     {
         if ($element->isFieldModified($this->handle)) {
             return [
-                Element::ATTR_STATUS_MODIFIED,
+                AttributeStatus::Modified,
                 Craft::t('app', 'This field has been modified.'),
             ];
         }

@@ -78,8 +78,7 @@ class HubspotLandingPageLinkType extends Link
             ]
         ];
 
-        $landingPages = LandingPageRecord::find()->orderBy('name ASC')->all();
-        foreach ($landingPages as $page) {
+        foreach (LandingPageRecord::find()->orderBy('name ASC')->all() as $page) {
             $options[] = [
                 'label' => $page->name,
                 'value' => $page->uid,
