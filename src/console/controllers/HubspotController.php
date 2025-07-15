@@ -49,10 +49,14 @@ class HubspotController extends Controller
         $data = json_decode($contents);
 
         foreach ($data->results as $object) {
-            echo "Landing Page: " . $object->language . " - " . $object->id . "\n";
+            if (\Craft::$app->request->isConsoleRequest) {
+                echo "Landing Page: " . $object->language . " - " . $object->id . "\n";
+            }
             $this->_saveLandingPageByObject($object);
             foreach ($object->translations as $language => $translation) {
-                echo "Translation: " . $language . " - " . $translation->id . "\n";
+                if (\Craft::$app->request->isConsoleRequest) {
+                    echo "Translation: " . $language . " - " . $translation->id . "\n";
+                }
                 $result = parse_url($object->url);
                 $translation->url = $result['scheme'] . '://' . $result['host'] . '/' . $translation->slug;
                 $translation->language = $language;
